@@ -14,7 +14,7 @@ nodeTestVersion = '10.15.1'
 // == Stages
 
 stage('check') {
-  node('docker && !aws') {
+  node('docker') {
     checkout([
       $class: 'GitSCM',
       branches: scm.branches,
@@ -372,7 +372,7 @@ def buildWindowsElectron(electronVersion, arch) {
 
 def inAndroidContainer(workerFunction) {
   return {
-    myNode('docker && android') {
+    myNode('android') {
       unstash 'source'
       def image
       withCredentials([[$class: 'StringBinding', credentialsId: 'packagecloud-sync-devel-master-token', variable: 'PACKAGECLOUD_MASTER_TOKEN']]) {
@@ -508,7 +508,7 @@ def doDockerInside(script, target, postStep = null) {
 
 def testAndroid(target, postStep = null) {
   return {
-    node('docker && android && !aws') {
+    node('android') {
         timeout(time: 1, unit: 'HOURS') {
             doDockerInside('./scripts/docker-android-wrapper.sh ./scripts/test.sh', target, postStep)
         }
