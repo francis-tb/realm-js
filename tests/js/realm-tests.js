@@ -1673,17 +1673,17 @@ module.exports = {
     },
 
     testDecimal128: function() {
-        const realm = new Realm({schema: [schemas.DecimalObject]});
+        const realm = new Realm({schema: [schemas.Decimal128Object]});
 
         let d = Decimal128.fromString("42");
         realm.write(() => {
-            realm.create(schemas.DecimalObject.name, { decimalCol: d});
+            realm.create(schemas.Decimal128Object.name, { decimal128Col: d});
         });
 
-        let objects = realm.objects(schemas.DecimalObject.name);
+        let objects = realm.objects(schemas.Decimal128Object.name);
         TestCase.assertEqual(objects.length, 1);
 
-        let d128 = objects[0]['decimalCol'];
+        let d128 = objects[0]['decimal128Col'];
         TestCase.assertTrue(d128 instanceof Decimal128);
         TestCase.assertEqual(d128.toString(), "42");
 
